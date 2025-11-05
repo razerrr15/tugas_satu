@@ -10,18 +10,21 @@ class Product {
   Product(this.name, this.price, this.inStock);
 
   @override
-  String toString() => '$name (\$${price.toStringAsFixed(2)}, inStock: $inStock)';
+  String toString() =>
+      '$name (\$${price.toStringAsFixed(2)}, inStock: $inStock)';
 }
 
 class ProductOutOfStockException implements Exception {
   final String msg;
   ProductOutOfStockException(this.msg);
+  @override
   String toString() => 'ProductOutOfStockException: $msg';
 }
 
 class DuplicateProductException implements Exception {
   final String msg;
   DuplicateProductException(this.msg);
+  @override
   String toString() => 'DuplicateProductException: $msg';
 }
 
@@ -40,7 +43,9 @@ class User {
       print('$name belum memiliki produk.');
     } else {
       print('\nProduk milik $name:');
-      for (var p in products!) print(' - $p');
+      for (var p in products!) {
+        print(' - $p');
+      }
     }
   }
 }
@@ -50,8 +55,10 @@ class AdminUser extends User {
 
   void addProduct(User target, Product p, Set<String> uniq) {
     try {
-      if (!p.inStock) throw ProductOutOfStockException('Produk "${p.name}" tidak tersedia.');
-      if (uniq.contains(p.name)) throw DuplicateProductException('Produk "${p.name}" sudah ada.');
+      if (!p.inStock)
+        throw ProductOutOfStockException('Produk "${p.name}" tidak tersedia.');
+      if (uniq.contains(p.name))
+        throw DuplicateProductException('Produk "${p.name}" sudah ada.');
       target.products ??= [];
       target.products!.add(p);
       uniq.add(p.name);

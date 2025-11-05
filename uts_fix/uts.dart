@@ -3,11 +3,13 @@ abstract class Transportasi {
   final int kapasitas;
   final double _tarifDasar;
 
-  Transportasi(this.id, this.nama, this.kapasitas, double tarif) : _tarifDasar = tarif;
+  Transportasi(this.id, this.nama, this.kapasitas, double tarif)
+      : _tarifDasar = tarif;
 
   double get tarifDasar => _tarifDasar;
   double hitungTarif(int penumpang);
-  void info() => print('[$id] $nama | Kapasitas: $kapasitas | Tarif: $_tarifDasar');
+  void info() =>
+      print('[$id] $nama | Kapasitas: $kapasitas | Tarif: $_tarifDasar');
 }
 
 class Taksi extends Transportasi {
@@ -15,7 +17,9 @@ class Taksi extends Transportasi {
   Taksi(super.id, super.nama, super.kapasitas, super.tarifDasar, this.jarak);
 
   @override
-  double hitungTarif(int p) => (p > kapasitas) ? throw Exception('Kelebihan penumpang') : tarifDasar * jarak;
+  double hitungTarif(int p) => (p > kapasitas)
+      ? throw Exception('Kelebihan penumpang')
+      : tarifDasar * jarak;
 
   @override
   void info() {
@@ -29,8 +33,9 @@ class Bus extends Transportasi {
   Bus(super.id, super.nama, super.kapasitas, super.tarifDasar, this.wifi);
 
   @override
-  double hitungTarif(int p) =>
-      (p > kapasitas) ? throw Exception('Kelebihan penumpang') : (tarifDasar * p) + (wifi ? 5000 : 0);
+  double hitungTarif(int p) => (p > kapasitas)
+      ? throw Exception('Kelebihan penumpang')
+      : (tarifDasar * p) + (wifi ? 5000 : 0);
 
   @override
   void info() {
@@ -91,5 +96,7 @@ void main() {
   ];
 
   print('\n=== DAFTAR PEMESANAN ===');
-  for (var p in daftar) p.struk();
+  for (var p in daftar) {
+    p.struk();
+  }
 }

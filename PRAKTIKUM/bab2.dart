@@ -2,7 +2,9 @@
 import 'dart:math';
 
 enum KategoriProduk { DataManagement, NetworkAutomation }
+
 enum Role { Developer, NetworkEngineer, Manager }
+
 enum FaseProyek { Perencanaan, Pengembangan, Evaluasi }
 
 class ProdukDigital {
@@ -83,6 +85,7 @@ abstract class Karyawan with Kinerja {
       required this.pengalamanTahun,
       this.aktif = true});
 
+  @override
   String get roleName => role.name;
   void bekerja();
 }
@@ -109,13 +112,13 @@ class KaryawanKontrak extends Karyawan {
     required int pengalamanTahun,
     required this.mulaiKontrak,
     required this.selesaiKontrak,
-  }) : super(nama,
-            umur: umur, role: role, pengalamanTahun: pengalamanTahun);
+  }) : super(nama, umur: umur, role: role, pengalamanTahun: pengalamanTahun);
 
   @override
   void bekerja() {
     final now = DateTime.now();
-    final aktifSekarang = now.isAfter(mulaiKontrak) && now.isBefore(selesaiKontrak);
+    final aktifSekarang =
+        now.isAfter(mulaiKontrak) && now.isBefore(selesaiKontrak);
     print(
         '$nama (Kontrak, ${role.name}) ${aktifSekarang ? "aktif" : "tidak aktif"} pada periode kontrak.');
   }
@@ -235,16 +238,20 @@ void main() {
 
   final perusahaan = Perusahaan(nama: 'TongIT', maxAktif: 20);
 
-  final k1 = KaryawanTetap('Asep', umur: 28, role: Role.Developer, pengalamanTahun: 2);
-  final k2 = KaryawanTetap('Budi', umur: 32, role: Role.NetworkEngineer, pengalamanTahun: 3);
-  final k3 = KaryawanTetap('Cici', umur: 40, role: Role.Manager, pengalamanTahun: 6);
+  final k1 =
+      KaryawanTetap('Asep', umur: 28, role: Role.Developer, pengalamanTahun: 2);
+  final k2 = KaryawanTetap('Budi',
+      umur: 32, role: Role.NetworkEngineer, pengalamanTahun: 3);
+  final k3 =
+      KaryawanTetap('Cici', umur: 40, role: Role.Manager, pengalamanTahun: 6);
   final k4 = KaryawanKontrak('Dedi',
       umur: 27,
       role: Role.Developer,
       pengalamanTahun: 1,
       mulaiKontrak: DateTime.now().subtract(Duration(days: 10)),
       selesaiKontrak: DateTime.now().add(Duration(days: 20)));
-  final k5 = KaryawanTetap('Eka', umur: 30, role: Role.Developer, pengalamanTahun: 4);
+  final k5 =
+      KaryawanTetap('Eka', umur: 30, role: Role.Developer, pengalamanTahun: 4);
 
   print('\nMenambah karyawan ke perusahaan:');
   print('Tambah Asep: ${perusahaan.tambahKaryawan(k1)}');
@@ -257,7 +264,8 @@ void main() {
 
   try {
     final berhasil = k3.updateProduktivitas(90);
-    print('\nUpdate produktivitas Manager Cici berhasil: $berhasil (nilai: ${k3.produktifitas})');
+    print(
+        '\nUpdate produktivitas Manager Cici berhasil: $berhasil (nilai: ${k3.produktifitas})');
   } catch (e) {
     print('Error update produktivitas: $e');
   }
@@ -275,16 +283,20 @@ void main() {
 
   print('\nProyek sebelum transisi: $proyek');
   final t1 = proyek.lanjutKeFaseBerikutnya();
-  print('Transisi Perencanaan->Pengembangan: $t1, fase sekarang: ${proyek.fase.name}');
+  print(
+      'Transisi Perencanaan->Pengembangan: $t1, fase sekarang: ${proyek.fase.name}');
   final t2 = proyek.lanjutKeFaseBerikutnya();
-  print('Transisi Pengembangan->Evaluasi: $t2, fase sekarang: ${proyek.fase.name}');
+  print(
+      'Transisi Pengembangan->Evaluasi: $t2, fase sekarang: ${proyek.fase.name}');
 
   print('\nDemonstrasi pembatasan karyawan aktif:');
   for (int i = 0; i < 18; i++) {
-    final temp = KaryawanTetap('Karyawan$i', umur: 25, role: Role.Developer, pengalamanTahun: 1);
+    final temp = KaryawanTetap('Karyawan$i',
+        umur: 25, role: Role.Developer, pengalamanTahun: 1);
     final added = perusahaan.tambahKaryawan(temp);
     if (!added) {
-      print('Gagal tambah Karyawan$i pada indeks $i (batas mungkin tercapai atau kriteria tidak terpenuhi).');
+      print(
+          'Gagal tambah Karyawan$i pada indeks $i (batas mungkin tercapai atau kriteria tidak terpenuhi).');
       break;
     }
   }
@@ -292,11 +304,14 @@ void main() {
 
   final resignOk = perusahaan.resignKaryawan(k2);
   print('\nBudi resign: $resignOk');
-  print('Aktif: ${perusahaan.aktif.length}, Non-aktif: ${perusahaan.nonAktif.length}');
+  print(
+      'Aktif: ${perusahaan.aktif.length}, Non-aktif: ${perusahaan.nonAktif.length}');
 
-  print('\nContoh: coba update produktivitas sebelum 30 hari lagi (harus gagal jika dilakukan sekarang):');
+  print(
+      '\nContoh: coba update produktivitas sebelum 30 hari lagi (harus gagal jika dilakukan sekarang):');
   final updateSoon = k1.updateProduktivitas(80);
-  print('Update produktivitas Asep sebelum 30 hari: $updateSoon (nilai sekarang: ${k1.produktifitas})');
+  print(
+      'Update produktivitas Asep sebelum 30 hari: $updateSoon (nilai sekarang: ${k1.produktifitas})');
 
   print('\nSelesai demo.');
 }
